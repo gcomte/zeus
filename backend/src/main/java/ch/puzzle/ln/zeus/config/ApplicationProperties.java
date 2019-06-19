@@ -82,6 +82,7 @@ public class ApplicationProperties {
         private String host;
         private int port;
         private String certPath;
+        private String adminMacaroonHex;
         private String invoiceMacaroonHex;
         private String readonlyMacaroonHex;
         private Long invoiceExpirySeconds;
@@ -108,6 +109,18 @@ public class ApplicationProperties {
 
         public void setCertPath(String certPath) {
             this.certPath = certPath;
+        }
+
+        public String getAdminMacaroonHex() {
+            return adminMacaroonHex;
+        }
+
+        public MacaroonContext getAdminMacaroonContext() {
+            return () -> adminMacaroonHex;
+        }
+
+        public void setAdminMacaroonHex(String adminMacaroonHex) {
+            this.adminMacaroonHex = adminMacaroonHex;
         }
 
         public String getInvoiceMacaroonHex() {

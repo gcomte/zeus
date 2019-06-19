@@ -48,6 +48,12 @@ path, adjust the following example paths accordingly.
   this later.  
   Use this command for example:  
   `xxd -p -c 999 ~/.lnd/data/chain/bitcoin/testnet/readonly.macaroon`
+* Get the hex value of the `admin.macaroon` and store it somewhere, we'll need
+  this later. You may refrain from using the admin macaroon for security reasons, 
+  in which case the Zeus functionality will be limited to processes where you do not actively move any funds yourself.
+  Use this command for example:  
+  `xxd -p -c 999 ~/.lnd/data/chain/bitcoin/testnet/admin.macaroon`
+  
 
 ### Configure application
 
@@ -70,6 +76,7 @@ application:
         port: 10009
         certPath: classpath:/certs/tls.cert
         # insert the hex values of the macaroon obtained in the previous step here!
+        adminMacaroonHex: 0201036c.....
         invoiceMacaroonHex: 0201036c.....
         readonlyMacaroonHex: 0201036c.....
 ```

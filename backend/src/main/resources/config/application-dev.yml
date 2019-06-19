@@ -81,5 +81,6 @@ application:
         host: localhost
         port: 10009
         certPath: classpath:/certs/tls.cert
+        # adminMacaroonHex: #optional
         invoiceMacaroonHex:
         readonlyMacaroonHex:
