@@ -50,10 +50,12 @@
                     <th>Active</th>
                     <th>Capacity</th>
                     <th>Balance</th>
+                    <th *ngIf="macaroons.includes(macaroonClassAdmin)">Rebalance</th>
                     <th class="text-right">Remote / Channel point</th>
                     <th class="text-right">Updates</th>
                     <th class="text-right">Received</th>
                     <th class="text-right">Sent</th>
+                    <th *ngIf="macaroons.includes(macaroonClassAdmin)" class="text-right">Remove</th>
                 </tr>
             </thead>
             <tbody>
@@ -72,6 +74,13 @@
                                          type="success">
                         </ngb-progressbar>
                     </td>
+                    <td *ngIf="macaroons.includes(macaroonClassAdmin)" class="text-right">
+                        <button class="btn-sm btn-primary float-right" (click)="rebalanceChannel()">
+                            <fa-icon [icon]="'balance-scale'">
+                            </fa-icon>
+                            <span>Rebalance</span>
+                        </button>
+                    </td>
                     <td class="text-right">
                         {{channel.remote_pubkey}}
                         <span *ngIf="channel.remote" [style.color]="channel.remote.node.color">
@@ -88,6 +97,13 @@
                     </td>
                     <td class="text-right">
                         {{channel.total_satoshis_sent | number : '1.0-0'}}
+                    </td>
+                    <td *ngIf="macaroons.includes(macaroonClassAdmin)" class="text-right">
+                        <button class="btn-sm btn-primary float-right" (click)="settleChannel()">
+                            <fa-icon [icon]="'link'">
+                            </fa-icon>
+                            <span>Settle</span>
+                        </button>
                     </td>
                 </tr>
             </tbody>

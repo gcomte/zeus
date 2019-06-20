@@ -1,5 +1,7 @@
 package ch.puzzle.ln.zeus.web.rest;
 
+import ch.puzzle.ln.zeus.config.ApplicationProperties;
+import ch.puzzle.ln.zeus.domain.enums.MacaroonClass;
 import ch.puzzle.ln.zeus.service.LndService;
 import io.micrometer.core.annotation.Timed;
 import org.lightningj.lnd.wrapper.message.GetInfoResponse;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/lnd")
 @Timed
@@ -21,9 +25,11 @@ public class LndResource extends AbstractHealthIndicator {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LndResource.class);
 
+    private final ApplicationProperties applicationProperties;
     private final LndService lndService;
 
-    public LndResource(LndService lndService) {
+    public LndResource(ApplicationProperties applicationProperties, LndService lndService) {
+        this.applicationProperties = applicationProperties;
         this.lndService = lndService;
     }
 
@@ -40,6 +46,11 @@ public class LndResource extends AbstractHealthIndicator {
     @GetMapping("/nodeinfo/{nodeId}")
     public NodeInfo getNodeInfo(@PathVariable String nodeId) throws Exception {
         return lndService.getNodeInfo(nodeId);
+    }
+
+    @GetMapping("/permissions")
+    public List<MacaroonClass> getAccreditedPermissions() {
+        return applicationProperties.getLnd().getClassesOfProvidedMacaroon();
     }
 
     @Override

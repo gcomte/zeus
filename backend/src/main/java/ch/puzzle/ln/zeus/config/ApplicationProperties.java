@@ -1,6 +1,8 @@
 package ch.puzzle.ln.zeus.config;
 
 import ch.puzzle.ln.zeus.domain.DailyOpeningHours;
+import ch.puzzle.ln.zeus.domain.enums.MacaroonClass;
+import liquibase.util.StringUtils;
 import org.lightningj.lnd.wrapper.MacaroonContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -145,6 +147,24 @@ public class ApplicationProperties {
 
         public void setReadonlyMacaroonHex(String readonlyMacaroonHex) {
             this.readonlyMacaroonHex = readonlyMacaroonHex;
+        }
+
+        public List<MacaroonClass> getClassesOfProvidedMacaroon () {
+            List<MacaroonClass> macaroonClasses = new ArrayList<>();
+
+            if (!StringUtils.isEmpty(this.readonlyMacaroonHex)) {
+                macaroonClasses.add(MacaroonClass.READONLY);
+            }
+
+            if (!StringUtils.isEmpty(this.invoiceMacaroonHex)) {
+                macaroonClasses.add(MacaroonClass.INVOICE);
+            }
+
+            if (!StringUtils.isEmpty(this.adminMacaroonHex)) {
+                macaroonClasses.add(MacaroonClass.ADMIN);
+            }
+
+            return macaroonClasses;
         }
 
         public Long getInvoiceExpirySeconds() {

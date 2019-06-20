@@ -11,15 +11,17 @@ export class LightningService {
     public getInfo(): Observable<any> {
         return combineLatest(
             this.http.get(getServerUrl() + 'api/lnd'),
+            this.http.get(getServerUrl() + 'api/lnd/permissions'),
             this.http.get(getServerUrl() + 'api/lnd/channels'),
             this.http.get(getServerUrl() + 'api/bitcoin'),
             this.http.get(getServerUrl() + 'api/bitcoin/price/CHF')
         ).pipe(
             map((result: any[]) => ({
                 lndInfo: result[0],
-                lndChannels: result[1].channels,
-                bitcoinInfo: result[2],
-                bitcoinPrice: result[3]
+                macaroons: result[1],
+                lndChannels: result[2].channels,
+                bitcoinInfo: result[3],
+                bitcoinPrice: result[4]
             }))
         );
     }
